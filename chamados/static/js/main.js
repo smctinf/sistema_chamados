@@ -33,6 +33,33 @@
     });
 
 
+    // Chamados Toggler
+    $('.meusChamados-toggler').click(function () {
+        $('.meusChamados-table').toggleClass("openChamado");
+        if($("#iconeUno").hasClass("fa-plus")){
+            $('#iconeUno').removeClass("fa-plus");
+            $('#iconeUno').addClass("fa-minus");
+        } else{
+            $('#iconeUno').removeClass("fa-minus");
+            $('#iconeUno').addClass("fa-plus");
+        }
+        return false;
+    });
+
+    // Chamados Atribuidos Toggler
+    $('.chamadosAtribuidos-toggler').click(function () {
+        $('.chamadosAtribuidos-table').toggleClass("openChamado");
+
+        if($("#iconeDos").hasClass("fa-plus")){
+        $('#iconeDos').removeClass("fa-plus");
+        $('#iconeDos').addClass("fa-minus");
+    } else{
+        $('#iconeDos').removeClass("fa-minus");
+        $('#iconeDos').addClass("fa-plus");
+    }
+        return false;
+    });
+    
     // Progress Bar
     $('.pg-bar').waypoint(function () {
         $('.progress .progress-bar').each(function () {
