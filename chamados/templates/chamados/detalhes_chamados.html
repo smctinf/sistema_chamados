@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+{% load static %}
+ {% block title%}
+ {% if user.is_staff %}
+ TI - SISTEMA DE CHAMADOS
+ {% else%}
+ <a href="/">
+    <img src="/static/images/braso.jpg" alt="" style="height: 40px;">
+   </a>
+    <a href="/">
+    <span class="ms-4">SISTEMA DE CHAMADOS</span>
+   </a>
+ {% endif %}
+ {% endblock %}
+{% block main %}
+<div class="container-fluid pt-4 px-4">
+    <div class="row rounded mx-0">
+        <div class="col text-dark">
+            <h2 class="text-uppercase mb-4 d-flex">
+                CHAMADO nº {{chamado.id}} - {{chamado.tipo_chamado.tipo}}
+                {% if request.user.is_superuser %}
+                <a href="{% url 'editar_chamado'  chamado.id %}" class="ms-3 my-auto" style="font-size: 12pt;">
+                    <i class="fa-solid fa-pen-to-square"></i>
+                </a>
+                {% endif %}
+                {% if request.user.is_staff %}
+                <button class="btn btn-primary ms-auto" style="border-radius: 0;">Imprimir</button>
+                <a href="{% url 'listar_chamados' %}" class="btn btn-secondary ms-2" style="border-radius: 0; text-transform: none;">Voltar</a>
+                {% endif %}
+            </h2>
+            Tipo de suporte: <b>{{chamado.tipo_suporte.tipo}}</b>
+            
+            <table class="table table-borderless mt-3">                
+                <tbody>
+                    <tr>                           
+                        <td>
+                            <b>Data de geração</b><br>
+                            <span>{{chamado.dt_inclusao}}</span>
+                        </td>
+                        <td>
+                            <b>Status<b><br>
+                            <button class="btn btn-primary {{chamado.status.bg}} px-4 py-0" style="border-radius: 0; border-color: white;">
+                                {{chamado.status.name}}
+                            </button>
+                             
+                        </td> 
+                        <td>
+                            <b>Solicitante</b><br>
+                            <span>{{chamado.create_user.first_name}}</span>
+                        </td>
+                        <td>
+                            <b>Ramal</b><br>
+                            <span>{{usuario.ramal}}</span>
+                        </td>
+                       
+                    </tr>  
+                    <tr>
+                        <td colspan="2">
+                            <b>Secretaria</b><br>
+                            <span>{{usuario.secretaria}}</span>
+                        </td>
+                        <td colspan="2">
+                            <b>Setor</b><br>
+                            <span>{{usuario.setor}}</span>
+                        </td>
+                    </tr>  
+                    {% if chamado.tem_anexo %}
+                    <tr>                        
+                        <td colspan="4">
+                            <b>Anexo:</b><br>
+                            <a target="_blank" href="{{chamado.anexo.url}}">
+                                {{chamado.anexo.name}}
+                            </a>
+                        </td>                        
+                    </tr>
+                    {% endif %}
+                    <tr>
+                        <td colspan="4">
+                            <b>Descrição:</b><br>
+                            {{chamado.mensagem}}
+                        </td>
+                    </tr>                                       
+                </tbody>
+            </table>
+            <div class="row">
+                <div class="col">
+                    <h4>Histórico:</h4>
+                    {% if historico_status %}
+                    <table class="table table-secondary table-hover table-striped table-borderless">
+                        {% for h in historico %}
+                        <tr>
+                            <td class="px-3 py-2 mb-3">
+                                <p class="d-flex">
+                                    <span><b style="font-size: 16pt;">{{h.user.first_name}}</b></span>
+                                    <span class="ms-auto"><b>{{h.dt_inclusao}}</b></span>
+                                </p>
+                                <p>
+                                    <b>Mensagem:</b>
+                                    {{h.resposta}}
+                                </p>
+                                {% if h.tem_anexo %}
+                                <i>
+                                    <b>Anexo:</b>
+                                    <a target="_blank" href="{{h.anexo.url}}">{{h.anexo}}</a>
+                                </i>
+                                {% endif %}
+                            </td>
+                        </tr>                                                                              
+                        {% endfor %}
+                    </table>
+                    {% else %}
+                    <p class="px-4 py-2" style="background-color: rgb(212, 209, 209);">Sem histórico por enquanto.</p>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col pt-4">
+                    <form method="POST" enctype="multipart/form-data" >
+                    {% csrf_token %}
+                    <b>Responder:</b>
+                    {{form.resposta}}
+                    <div class="row">
+                        <div class="py-3 col d-flex">
+                            {{form.anexo}}
+                            <button type="submit" class="btn btn-primary bg-primary ms-auto" style="border-radius: 0; border-color: white;">Responder</button>
+                        </div>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    table{
+        color: black !important;
+    }
+</style>
+{% endblock %}

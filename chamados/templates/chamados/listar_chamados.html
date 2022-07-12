@@ -1,0 +1,121 @@
+{% extends 'base.html' %}
+{% load static %}
+ {% block title%}
+ {% if user.is_staff %}
+ TI - SISTEMA DE CHAMADOS
+ {% else%}
+ <a href="/">
+    <img src="/static/images/braso.jpg" alt="" style="height: 40px;">
+   </a>
+    <a href="/">
+    <span class="ms-4">SISTEMA DE CHAMADOS</span>
+   </a>
+ {% endif %}
+ {% endblock %}
+{% block main %}
+<div class="container-fluid pt-4 px-4">
+    <div class="row rounded mx-0">
+        <div class="col text-dark pb-5">
+            <h2 class="text-uppercase mb-5">CHAMADOS</h2>            
+            <h4>{% if request.user.is_staff %}<button class="btn me-3"><i class="fa-solid fa-minus"></i></button>{% endif %}Meus chamados</h4>
+            <table class="table table-hover">
+                <thead>
+                    <tr>     
+                        <th></th>                   
+                        <th scope="col">id</th>
+                        <th scope="col">Tipo Chamado</th>
+                        <th scope="col">Tipo Suporte</th>
+                        <th scope="col">Solicitante</th>
+                        <th class="px-5">Status</th>
+                        <th>Suporte</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for chamado in meus_chamados %}
+                    <tr>    
+                        <td>
+                            <input type="checkbox" name="" id="">
+                        </td>                    
+                        <th scope="row">{{ chamado.id }}</th>
+                        <td>{{ chamado.tipo_chamado.tipo }}</td>
+                        <td>{{ chamado.tipo_suporte.tipo }}</td>
+                        <td>{{ chamado.create_user.first_name }}</td>
+                        <td class="d-flex px-5">
+                            <span class="{{chamado.status.bg}} px-4 text-white w-100 text-center">
+                                <b>{{chamado.status.name}}</b>
+                            </span>
+                        </td>
+                        <td>
+                            {% if chamado.tecnico.user.first_name %}
+                            {{chamado.tecnico.user.first_name}}
+                            {% else %}
+                            À definir
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{% url 'detalhe_chamado' chamado.id %}">
+                                <i class="fa-solid fa-eye"></i>
+                            </a>
+                        </td>
+                    </tr>                    
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% if request.user.is_staff %}
+            <h4 class="mt-5"><button class="btn me-3"><i class="fa-solid fa-minus"></i></button>Chamados atribuídos a você</h4>
+            <table class="table table-hover">
+                <thead>
+                    <tr>     
+                        <th></th>                   
+                        <th scope="col">id</th>
+                        <th scope="col">Tipo Chamado</th>
+                        <th scope="col">Tipo Suporte</th>
+                        <th scope="col">Solicitante</th>
+                        <th class="px-5">Status</th>
+                        <th>Suporte</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for chamado in chamados %}
+                    <tr>    
+                        <td>
+                            <input type="checkbox" name="" id="">
+                        </td>                    
+                        <th scope="row">{{ chamado.id }}</th>
+                        <td>{{ chamado.tipo_chamado.tipo }}</td>
+                        <td>{{ chamado.tipo_suporte.tipo }}</td>
+                        <td>{{ chamado.create_user.first_name }}</td>
+                        <td class="d-flex px-5">
+                            <span class="{{chamado.status.bg}} px-4 text-white w-100 text-center">
+                                <b>{{chamado.status.name}}</b>
+                            </span>
+                        </td>
+                        <td>
+                            {% if chamado.tecnico.user.first_name %}
+                            {{chamado.tecnico.user.first_name}}
+                            {% else %}
+                            À definir
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{% url 'detalhe_chamado' chamado.id %}">
+                                <i class="fa-solid fa-eye"></i>
+                            </a>
+                        </td>
+                    </tr>                    
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<style>
+    table{
+        color: black !important;
+    }
+</style>
+{% endblock %}
+

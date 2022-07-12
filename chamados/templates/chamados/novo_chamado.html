@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+{% load static %}
+ {% block title%}
+ {% if user.is_staff %}
+ TI - SISTEMA DE CHAMADOS
+ {% else%}
+ <a href="/">
+    <img src="/static/images/braso.jpg" alt="" style="height: 40px;">
+   </a>
+    <a href="/">
+    <span class="ms-4">SISTEMA DE CHAMADOS</span>
+   </a>
+ {% endif %}
+ {% endblock %}
+{% block main %}
+<div class="container-fluid pt-4 px-4">
+    <div class="row rounded mx-0">
+        <div class="col text-dark">
+            <h2 class="text-uppercase mb-2">Novo chamado</h2>
+            {% if save %}
+            <div class="row">
+                <div class="col bg-success text-white py-2 text-uppercase text-center">
+                    <b style="font-size: 14pt;">Seu chamado foi criado com sucesso!</b>
+                </div>
+            </div>
+            {% endif %}
+            <form method="POST" enctype="multipart/form-data" class="mt-3">
+                {% csrf_token %}
+                <div class="row">
+                    <div class="col">
+                        <label for="id_tipo_chamado">
+                            {{form.tipo_chamado.label}}:
+                        </label>
+                        {{form.tipo_chamado}}
+                        <div id="div_tipo_suporte">                        
+                            <label for="id_tipo_chamado" class="mt-3">
+                                {{form.tipo_suporte.label}}:
+                            </label>
+                            <select name="tipo_suporte" class="form-control" required id="id_tipo_suporte">
+                                <option value="" selected>---------</option>
+                            </select>
+                        </div>                    
+                        <div id="dados_extras"></div>
+                    </div>
+                    <div class="col d-flex flex-column">
+                        <label for="id_mensagem">{{form.mensagem.label}}:</label>
+                        {{form.mensagem}}
+                        <div class="row mt-auto">
+                            <div class="col pt-1">
+                                {{form.anexo}}
+                                <button class="btn btn-primary mt-3 w-100 text-uppercase">Criar chamado</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3 pt-3">
+                        <p><b>Sua informações</b></p>
+                        Usuário:
+                        <p class="fst-italic">{{request.user}}</p>
+                        Secretaria:
+                        <p class="fst-italic">{{usuario.secretaria}}</p>
+                        {% if usuario.setor %}
+                        Setor:
+                        <p class="fst-italic">{{usuario.setor}}</p>
+                        {% endif %}
+                        Ramal:
+                        <p class="fst-italic">{{usuario.ramal}}</p>
+                    </div>
+                </div>  
+            </form>          
+        </div>
+    </div>
+</div>
+<style>
+    #div_tipo_suporte{
+        opacity: 0;
+    }
+    .fst-italic{
+        font-size: 11pt;
+     }
+     #error{
+        background-color: rgba(0, 0, 0, 0.466);
+        display: flex;
+        width: 100%;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 2000;
+        color: black;
+     }
+    
+     #error div{
+        border-radius: 5px;
+        margin: auto;
+        padding: 40px 60px;
+        width: 600px;
+        height: 300px;
+        display: flex;
+        flex-direction: column;
+     }
+</style>
+<script>
+    function get_tipo_suporte(value){
+        if (value==1){
+            get_chamado_impressora();
+        }else{
+            $("#dados_extras").html('');
+        }
+        var url = '/get_tipo_suporte/';  
+        $.ajax({ 
+            url: url,
+            data: {
+                'id': value,
+            },
+            success: function(data) {                               
+                $("#id_tipo_suporte").html(data);
+                document.getElementById('div_tipo_suporte').style.opacity='1'
+                
+            }
+        });                        
+    }
+    function get_chamado_impressora(){
+        var url = '/get_chamado_impressora/';  
+        $.ajax({ 
+            url: url,
+            data: {
+                'id': '',
+            },
+            success: function(data) {                               
+                $("#dados_extras").html(data);
+                console.log('ok')
+            }
+        });                        
+    }
+    function closeSpam(){
+        document.getElementById('error').style.display='none'
+    }
+</script>
+{% if error != '' %}    
+<div id="error">
+    <div class="bg-white">        
+                <h4>Erro nos dados do formulário:</h4>                                
+                {{error}}                    
+                <button onclick="closeSpam()" class="btn btn-primary ms-auto mt-auto">Ok</button>                    
+    </div>
+</div>
+{% endif %}
+{% endblock %}

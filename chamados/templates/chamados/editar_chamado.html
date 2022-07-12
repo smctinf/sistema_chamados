@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+ {% block title%}
+ {% if user.is_staff %}
+ TI - SISTEMA DE CHAMADOS
+ {% else%}
+ <a href="/">
+    <img src="/static/images/braso.jpg" alt="" style="height: 40px;">
+   </a>
+    <a href="/">
+    <span class="ms-4">SISTEMA DE CHAMADOS</span>
+   </a>
+ {% endif %}
+ {% endblock %}
+{% block main %}
+<div class="container-fluid pt-4 px-4">
+    <div class="row rounded mx-0">
+        <div class="col text-dark">
+            <h2 class="text-uppercase mb-4 d-flex">
+                CHAMADO nº {{chamado.id}} - {{chamado.tipo_chamado.tipo}}
+                <button class="btn btn-primary ms-auto" style="border-radius: 0;">Imprimir</button>
+                <a href="{% url 'detalhe_chamado' chamado.id %}" class="btn btn-secondary ms-2" style="border-radius: 0; text-transform: none;">Voltar</a>
+            </h2>
+            
+            <div class="row">
+                <div class="col">
+                    <form method="POST">
+                    {% csrf_token %}
+                    {{form}}
+                    <button type="submit" class="btn btn-primary mt-3" style="border-radius: 0;">
+                        Alterar
+                    </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    table{
+        color: black !important;
+    }
+</style>
+{% endblock %}
