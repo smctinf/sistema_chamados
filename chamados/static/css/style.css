@@ -72,7 +72,8 @@
     top: 0;
     left: 0;
     bottom: 0;
-    width: 250px;
+    max-width: 250px;
+    min-width: 250px;
     height: 100vh;
     overflow-y: auto;
     background: var(--light);
@@ -283,4 +284,29 @@
 }
 .text-primary{
     color: #31A645 !important;
+}
+
+/*** Listar-Chamados ***/
+.chamados{
+    display: flex;
+    flex-direction: column;
+    gap: 5vh;
+}
+.meusChamados-toggler{
+
+}
+.meusChamados-title{
+    display: inline;
+}
+.meusChamados-table, .chamadosAtribuidos-table{
+    max-height: 1000px;
+    transition: all 0.5s ease-in;
+}
+
+.openChamado{
+    max-height: 0 !important;
+    transition: all 0.2s ease-out;
+}
+.table-wrapper{
+    overflow: hidden;
 }
