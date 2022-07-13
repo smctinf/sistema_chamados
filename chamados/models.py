@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 class Usuario(models.Model):
     cpf=models.CharField(max_length=11, null=True, blank=True, default='00000000000')
-    user=models.ForeignKey(User, on_delete=models.CASCADE)
+    user=models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     secretaria=models.TextField(verbose_name='Nome da secretaria', blank=False)
     setor=models.CharField(max_length=150, verbose_name='Subsecretaria/Setor', blank=False)
     matricula=models.CharField(max_length=8, verbose_name='Matricula')
