@@ -228,7 +228,5 @@
             responsive: true
         }
     });
-
-    
 })(jQuery);
 
