@@ -36,12 +36,12 @@
     // Chamados Toggler
     $('.meusChamados-toggler').click(function () {
         $('.meusChamados-table').toggleClass("openChamado");
-        if($("#iconeUno").hasClass("fa-plus")){
-            $('#iconeUno').removeClass("fa-plus");
-            $('#iconeUno').addClass("fa-minus");
-        } else{
+        if($("#iconeUno").hasClass("fa-minus")){
             $('#iconeUno').removeClass("fa-minus");
             $('#iconeUno').addClass("fa-plus");
+        } else{
+            $('#iconeUno').removeClass("fa-plus");
+            $('#iconeUno').addClass("fa-minus");
         }
         return false;
     });

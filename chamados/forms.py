@@ -65,7 +65,7 @@ class Form_Chamado_Edit(ModelForm):
             'status': forms.Select(attrs={'class':'form-control mb-3'}),
             'tecnico': forms.Select(attrs={'class':'form-control mb-3'})
         }
-        exclude = ['ativo', 'tem_anexo', 'tipo_chamado', 'tipo_suporte','anexo', 'create_user', 'dt_inclusao']
+        exclude = ['mensagem', 'ativo', 'tem_anexo', 'tipo_chamado', 'tipo_suporte','anexo', 'create_user', 'dt_inclusao']
 
 
 class Form_Impressora(ModelForm):
