@@ -29,6 +29,7 @@ class Form_Usuario(ModelForm):
         widgets = {            
           'secretaria': forms.Textarea(attrs={'rows':1, 'class': 'form-control'}),
           'setor': forms.TextInput(attrs={'class':'form-control', 'autocomplete': 'off'}),
+          'cpf': forms.TextInput(attrs={'class':'form-control', 'autocomplete': 'off'}),
           'matricula': forms.TextInput(attrs={'class':'form-control', 'autocomplete': 'off'}),
           'telefone': forms.TextInput(attrs={'class':'form-control', 'autocomplete': 'off'}),
           'ramal': forms.TextInput(attrs={'class':'form-control', 'autocomplete': 'off'}),
