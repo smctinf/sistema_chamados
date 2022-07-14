@@ -293,9 +293,6 @@
     flex-direction: column;
     gap: 5vh;
 }
-.meusChamados-toggler{
-
-}
 .meusChamados-title{
     display: inline;
 }
@@ -310,4 +307,10 @@
 }
 .table-wrapper{
     overflow: hidden;
+}
+
+/*** Sidebar ***/
+.sidebar nav{
+    flex-direction: column;
+    justify-content: flex-start;
 }
